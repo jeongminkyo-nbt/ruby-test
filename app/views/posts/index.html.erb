@@ -20,7 +20,12 @@
     <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
-</table>
+<% if session[:user_id].present?%>
+    <a href="/logout">logout 하러가기</a>
+  <% else%>
+    <a href="/login">login 하러가기</a>
+  <%end%>
+    </table>
 
 <br />
 
