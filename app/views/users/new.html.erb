@@ -3,6 +3,11 @@
 <input type="email" name="email"><br>
 패스워드
 <input type="password" name="password"><br>
+  패스워드 확인
+  <input type="password" name="password_confirm"><br>
+  <% flash.each do |name, msg| -%>
+    <%= content_tag :div, msg, class: name %>
+  <% end -%>
   이름
   <input type="string" name="name"><br>
 <input type="submit" value="회원가입">

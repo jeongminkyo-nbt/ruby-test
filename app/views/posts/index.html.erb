@@ -21,9 +21,10 @@
   </tr>
 <% end %>
 <% if session[:user_id].present?%>
-    <a href="/logout">logout 하러가기</a>
+    <a href="/logout">logout</a>
   <% else%>
-    <a href="/login">login 하러가기</a>
+    <a href="/login">login</a>&nbsp;&nbsp;
+    <a href="/users/new">회원가입</a>
   <%end%>
     </table>
 

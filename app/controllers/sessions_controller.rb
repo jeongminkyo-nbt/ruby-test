@@ -10,8 +10,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to :posts
     else
-
-      render 'new'
+      redirect_to :back, alert: "아이디,비밀번호가 다릅니다"
     end
   end
 
