@@ -26,6 +26,9 @@
     <a href="/login">login</a>&nbsp;&nbsp;
     <a href="/users/new">회원가입</a>
   <%end%>
+  <% flash.each do |name, msg| -%>
+    <%= content_tag :div, msg, class: name %>
+  <% end -%>
     </table>
 
 <br />

@@ -25,7 +25,6 @@ class PostsController < ApplicationController
   # GET /posts/new.json
   def new
     @post = Post.new
-    name = User.find(session[:user_id]).email
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @post, name: name }
@@ -35,6 +34,9 @@ class PostsController < ApplicationController
   # GET /posts/1/edit
   def edit
     @post = Post.find(params[:id])
+    if @post.name != User.find(session[:user_id]).email
+      redirect_to :back, alert: "수정권한이 없습니다."
+    end
   end
 
   # POST /posts
@@ -43,7 +45,7 @@ class PostsController < ApplicationController
     names = User.find(session[:user_id]).email
 
     @post = Post.new(params[:post])
-    @post.name = names
+    # @post.name = names
 
     respond_to do |format|
       if @post.save
@@ -60,7 +62,6 @@ class PostsController < ApplicationController
   # PUT /posts/1.json
   def update
     @post = Post.find(params[:id])
-
     respond_to do |format|
       if @post.update_attributes(params[:post])
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
@@ -76,11 +77,14 @@ class PostsController < ApplicationController
   # DELETE /posts/1.json
   def destroy
     @post = Post.find(params[:id])
-    @post.destroy
-
-    respond_to do |format|
-      format.html { redirect_to posts_url }
-      format.json { head :no_content }
+    if @post.name != User.find(session[:user_id]).email
+      redirect_to :back, alert: "삭제권한이 없습니다."
+    else
+      @post.destroy
+      respond_to do |format|
+        format.html { redirect_to posts_url }
+        format.json { head :no_content }
+      end
     end
   end
 end

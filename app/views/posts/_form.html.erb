@@ -17,6 +17,7 @@
 
   </div>
 
+  <%= f.hidden_field :name, { :value => User.find(session[:user_id]).email } %>
   <div class="field">
     <%= f.label :title %><br />
     <%= f.text_field :title %>
