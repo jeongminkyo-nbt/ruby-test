@@ -34,8 +34,12 @@ class PostsController < ApplicationController
   # GET /posts/1/edit
   def edit
     @post = Post.find(params[:id])
-    if @post.name != User.find(session[:user_id]).email
-      redirect_to :back, alert: "수정권한이 없습니다."
+    if !session[:user_id].present?
+      redirect_to :back, alert: "로그인이 필요합니다."
+    else
+      if @post.name != User.find(session[:user_id]).email
+        redirect_to :back, alert: "수정권한이 없습니다."
+      end
     end
   end
 
@@ -77,13 +81,17 @@ class PostsController < ApplicationController
   # DELETE /posts/1.json
   def destroy
     @post = Post.find(params[:id])
-    if @post.name != User.find(session[:user_id]).email
-      redirect_to :back, alert: "삭제권한이 없습니다."
+    if !session[:user_id].present?
+      redirect_to :back, alert: "로그인이 필요합니다."
     else
-      @post.destroy
-      respond_to do |format|
-        format.html { redirect_to posts_url }
-        format.json { head :no_content }
+      if @post.name != User.find(session[:user_id]).email
+        redirect_to :back, alert: "삭제권한이 없습니다."
+      else
+        @post.destroy
+        respond_to do |format|
+          format.html { redirect_to posts_url }
+          format.json { head :no_content }
+        end
       end
     end
   end
