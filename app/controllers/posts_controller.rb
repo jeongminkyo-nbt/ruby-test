@@ -25,10 +25,10 @@ class PostsController < ApplicationController
   # GET /posts/new.json
   def new
     @post = Post.new
-
+    name = User.find(session[:user_id]).email
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @post }
+      format.json { render json: @post, name: name }
     end
   end
 
@@ -40,7 +40,10 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
+    names = User.find(session[:user_id]).email
+
     @post = Post.new(params[:post])
+    @post.name = names
 
     respond_to do |format|
       if @post.save
