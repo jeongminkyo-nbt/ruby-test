@@ -20,11 +20,11 @@
     <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
-<% if session[:user_id].present?%>
-    <a href="/logout">logout</a>
+<% if user_signed_in?%>
+    <%= link_to "sign out", destroy_user_session_path, method: :delete %>
   <% else%>
-    <a href="/login">login</a>&nbsp;&nbsp;
-    <a href="/users/new">회원가입</a>
+    <a href="/users/sign_in">login</a>&nbsp;&nbsp;
+    <a href="/users/sign_up">회원가입</a>
   <%end%>
   <% flash.each do |name, msg| -%>
     <%= content_tag :div, msg, class: name %>

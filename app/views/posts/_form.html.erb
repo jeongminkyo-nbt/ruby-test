@@ -13,11 +13,11 @@
 
   <div class="field">
     <%= f.label :name %> :
-    <%= User.find(session[:user_id]).email %>
+    <%= current_user.email %>
 
   </div>
 
-  <%= f.hidden_field :name, { :value => User.find(session[:user_id]).email } %>
+  <%= f.hidden_field :name, { :value => current_user.email } %>
   <div class="field">
     <%= f.label :title %><br />
     <%= f.text_field :title %>

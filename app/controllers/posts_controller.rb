@@ -34,10 +34,10 @@ class PostsController < ApplicationController
   # GET /posts/1/edit
   def edit
     @post = Post.find(params[:id])
-    if !session[:user_id].present?
+    if !user_signed_in?
       redirect_to :back, alert: "로그인이 필요합니다."
     else
-      if @post.name != User.find(session[:user_id]).email
+      if @post.name != current_user.email
         redirect_to :back, alert: "수정권한이 없습니다."
       end
     end
@@ -46,11 +46,7 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    names = User.find(session[:user_id]).email
-
     @post = Post.new(params[:post])
-    # @post.name = names
-
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
@@ -81,10 +77,10 @@ class PostsController < ApplicationController
   # DELETE /posts/1.json
   def destroy
     @post = Post.find(params[:id])
-    if !session[:user_id].present?
+    if !user_signed_in?
       redirect_to :back, alert: "로그인이 필요합니다."
     else
-      if @post.name != User.find(session[:user_id]).email
+      if @post.name != current_user.email
         redirect_to :back, alert: "삭제권한이 없습니다."
       else
         @post.destroy
